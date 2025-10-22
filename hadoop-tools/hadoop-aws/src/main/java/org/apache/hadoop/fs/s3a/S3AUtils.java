@@ -638,7 +638,10 @@ public final class S3AUtils {
       String methodName,
       String configKey) throws IOException {
     try {
-      Class<?> instanceClass = S3AUtils.class.getClassLoader().loadClass(className);
+      ClassLoader classloader = conf.getClassLoader();
+      LOG.info("Loading class {} with classloader {}", className, classLoader);
+      Class<?> instanceClass = classloader.loadClass(className);
+      // Class<?> instanceClass = S3AUtils.class.getClassLoader().loadClass(className);
       if (Modifier.isAbstract(instanceClass.getModifiers())) {
         throw isAbstract(uri, className, configKey);
       }
